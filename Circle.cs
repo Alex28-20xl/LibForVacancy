@@ -1,23 +1,30 @@
-﻿namespace LibForVacancy
+﻿
+namespace LibForVacancy
 {
-    public class Circle:Shape
-    {
-        public double Radius { get; }
-
-                
-        public Circle(double rad)
+    
+        public class Circle : IShape
         {
-            if(rad < 0)
+            private double _area;
+
+            public double Radius { get; }
+            public double Area { get { return _area; } }
+
+
+            public Circle(double rad)
             {
-                throw new ArgumentOutOfRangeException("Радиус не может быть отрицательным");
-            }
-            
-            Radius = rad;
-        }
+                if (rad < 0)
+                {
+                    throw new ArgumentException("Радиус не может быть отрицательным");
+                }
 
-        protected sealed override double CalcArea()
+                Radius = rad;
+                _area = CalcArea();
+            }
+
+        public double CalcArea() //реализация для круга
         {
-           return Math.PI * Math.Pow(Radius, 2);
+            return Math.PI * Radius * Radius;
         }
-    }
-}
+    }        
+ }
+

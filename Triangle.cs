@@ -1,40 +1,48 @@
-﻿namespace LibForVacancy
+﻿
+namespace LibForVacancy
 {
-    public class Triangle:Shape
+    public class Triangle : IShape
     {
+        private double _area;
         private readonly bool _isTriangleRight;
 
         public double SideOne { get; }
         public double SideTwo { get; }
         public double SideThree { get; }
-                
+
+        public double Area { get { return _area; } }
+
         public bool IsTriangleRight => _isTriangleRight;
 
-        
+
         public Triangle(double sideOne, double sideTwo, double sideThree)
         {
-            if(sideOne < 0 || sideTwo<0 || sideThree < 0)
+            if (sideOne < 0 || sideTwo < 0 || sideThree < 0)
             {
                 throw new ArgumentException("ни одна из сторон треугольника не может быть отрицательной");
             }
 
-            SideOne=sideOne;
-            SideTwo=sideTwo;
-            SideThree=sideThree;
+            SideOne = sideOne;
+            SideTwo = sideTwo;
+            SideThree = sideThree;
 
+            _area = CalcArea();
             _isTriangleRight = CheckIsTriangleRight();
         }
 
-        private bool CheckIsTriangleRight()
+
+        private bool CheckIsTriangleRight() //проверка треугольника на нормальность
         {
-            //написать функцию проверки 
-            return true;
+            return SideOne == Math.Sqrt(SideTwo * SideTwo + SideThree * SideThree)
+                || SideTwo == Math.Sqrt(SideOne * SideOne + SideThree * SideThree)
+                || SideThree == Math.Sqrt(SideOne * SideOne + SideTwo * SideTwo);
         }
 
-        protected sealed override double CalcArea()
+
+        public double CalcArea() //реализация интерфейса для треугольника
         {
-            //написать функцию вычисления площади
-            return 0.0;
+            double sPerim = (SideOne + SideTwo + SideThree) / 2; //находим полупериметр
+            return Math.Sqrt(sPerim * (sPerim - SideOne) * (sPerim - SideTwo) * (sPerim - SideThree));
         }
     }
 }
